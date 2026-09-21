@@ -1,6 +1,7 @@
 import { PortableText } from "next-sanity";
 import { createImageUrlBuilder } from "@sanity/image-url";
-import { client } from "@/sanity/client";
+import { sanityFetch } from "@/sanity/lib/live";
+import { client } from "@/sanity/lib/client";
 import Link from "next/link";
 const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
 const { projectId, dataset } = client.config();
@@ -8,10 +9,12 @@ const urlFor = (source) =>
   projectId && dataset
     ? createImageUrlBuilder({ projectId, dataset }).image(source)
     : null;
-const options = { next: { revalidate: 30 } };
 
 export default async function PostPage({ params }) {
-  const post = await client.fetch(POST_QUERY, await params, options);
+  const { data: post } = await sanityFetch({
+    query: POST_QUERY,
+    params: await params,
+  });
   const postImageUrl = post.image
     ? urlFor(post.image)?.width(550).height(310).url()
     : null;
