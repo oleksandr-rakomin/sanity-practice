@@ -25,7 +25,11 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         {children}
-        <SanityLive />
+        <SanityLive
+          waitFor={
+            process.env.VERCEL_ENV === "production" ? "function" : undefined
+          }
+        />
       </body>
     </html>
   );
