@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { sanityFetch } from "@/sanity/lib/live";
-
-const POSTS_QUERY = `*[
-  _type == "post"
-  && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
+import { POSTS_QUERY } from "@/sanity/lib/queries";
 
 export default async function Page() {
   const { data: posts } = await sanityFetch({ query: POSTS_QUERY });
