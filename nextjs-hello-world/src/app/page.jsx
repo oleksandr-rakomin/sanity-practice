@@ -1,9 +1,15 @@
 import Link from "next/link";
 import { sanityFetch } from "@/sanity/lib/live";
 import { POSTS_QUERY } from "@/sanity/lib/queries";
+import { APP_LOCALE } from "@/sanity/lib/locale";
 
 export default async function Page() {
-  const { data: posts } = await sanityFetch({ query: POSTS_QUERY });
+  const { data: posts } = await sanityFetch({
+    query: POSTS_QUERY,
+    params: {
+      language: APP_LOCALE,
+    },
+  });
 
   return (
     <main className="container mx-auto min-h-screen max-w-3xl p-8">

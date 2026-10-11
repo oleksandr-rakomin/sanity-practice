@@ -1,9 +1,15 @@
-import { defineArrayMember, defineField, defineType } from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const postType = defineType({
   name: 'post',
   type: 'document',
   fields: [
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+    }),
     defineField({
       name: 'title',
       type: 'string',
