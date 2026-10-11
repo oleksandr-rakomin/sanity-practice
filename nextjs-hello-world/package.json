@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev:pl-PL": "cross-env APP_LOCALE=pl-PL next dev",
+    "dev:uk-UA": "cross-env APP_LOCALE=uk-UA next dev",
+    "build:pl-PL": "cross-env APP_LOCALE=pl-PL next build",
+    "build:uk-UA": "cross-env APP_LOCALE=uk-UA next build",
+    "start:pl-PL": "cross-env APP_LOCALE=pl-PL next start",
+    "start:uk-UA": "cross-env APP_LOCALE=uk-UA next start",
     "lint": "eslint"
   },
   "dependencies": {
@@ -20,6 +23,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "babel-plugin-react-compiler": "1.0.0",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
     "tailwindcss": "^4"

@@ -4,6 +4,7 @@ import {defineConfig} from 'sanity'
 import {presentationTool} from 'sanity/presentation'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
+import {documentInternationalization} from '@sanity/document-internationalization'
 
 import {schemaTypes} from './schemaTypes'
 
@@ -27,6 +28,13 @@ export default defineConfig({
       },
     }),
     visionTool(),
+    documentInternationalization({
+      supportedLanguages: [
+        {id: 'pl-PL', title: 'Polski'},
+        {id: 'uk-UA', title: 'Українська'},
+      ],
+      schemaTypes: ['post'],
+    }),
   ],
 
   schema: {

@@ -4,6 +4,7 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { client } from "@/sanity/lib/client";
 import { POST_QUERY } from "@/sanity/lib/queries";
 import Link from "next/link";
+import { APP_LOCALE } from "@/sanity/lib/locale";
 
 const { projectId, dataset } = client.config();
 const urlFor = (source) =>
@@ -12,9 +13,11 @@ const urlFor = (source) =>
     : null;
 
 export default async function PostPage({ params }) {
+  const { slug } = await params;
+
   const { data: post } = await sanityFetch({
     query: POST_QUERY,
-    params: await params,
+    params: { slug, language: APP_LOCALE },
   });
 
   const postImageUrl = post.image
