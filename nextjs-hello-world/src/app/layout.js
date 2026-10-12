@@ -3,7 +3,6 @@ import "./globals.css";
 import { SanityLive } from "@/sanity/lib/live";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
-import { DisableDraftMode } from "@/components/disable-draft-mode";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,7 +39,6 @@ export default async function RootLayout({ children }) {
         {isEnabled && (
           <>
             <VisualEditing />
-            <DisableDraftMode />
           </>
         )}
       </body>
