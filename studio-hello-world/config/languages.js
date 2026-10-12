@@ -1,3 +1,5 @@
+export const baseLanguageId = 'uk-UA'
+
 export const languages = [
   {
     id: 'uk-UA',

@@ -5,8 +5,24 @@ export const POSTS_QUERY = defineQuery(
     _type == "post"
     && defined(slug.current)
     && language == $language
-  ]
-  | order(publishedAt desc)[0...12]{
+  ]{
+    _id,
+    title,
+    slug,
+    publishedAt,
+
+    "baseOrderRank": select(
+      $language == $baseLanguage => orderRank,
+
+      *[
+        _type == "translation.metadata"
+        && references(^._id)
+      ][0]
+        .translations[language == $baseLanguage][0]
+        .value->orderRank
+    )
+  }
+  | order(baseOrderRank asc)[0...12]{
     _id,
     title,
     slug,

@@ -7,6 +7,8 @@ import {visionTool} from '@sanity/vision'
 import {documentInternationalization} from '@sanity/document-internationalization'
 import {languages} from './config/languages'
 import {locations} from './presentation/resolve'
+import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
+import {baseLanguageId} from './config/languages'
 
 import {schemaTypes} from './schemaTypes'
 
@@ -18,7 +20,27 @@ export default defineConfig({
   dataset: 'production',
 
   plugins: [
-    structureTool(),
+    structureTool({
+      structure: (S, context) =>
+        S.list()
+          .title('Content')
+          .items([
+            orderableDocumentListDeskItem({
+              type: 'post',
+              title: 'Posts order',
+              id: 'post-order',
+              filter: 'language == $language',
+              params: {
+                language: baseLanguageId,
+              },
+              createIntent: false,
+              S,
+              context,
+            }),
+
+            ...S.documentTypeListItems(),
+          ]),
+    }),
     presentationTool({
       previewUrl: {
         initial: process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000',
