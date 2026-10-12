@@ -35,7 +35,26 @@ export const postType = defineType({
     }),
     defineField({
       name: 'image',
+      title: 'Image',
       type: 'image',
+      options: {
+        hotspot: {
+          previews: [
+            {
+              title: '16:9',
+              aspectRatio: 16 / 9,
+            },
+            {
+              title: '4:3',
+              aspectRatio: 4 / 3,
+            },
+            {
+              title: '1:1',
+              aspectRatio: 1,
+            },
+          ],
+        },
+      },
     }),
     defineField({
       name: 'body',
