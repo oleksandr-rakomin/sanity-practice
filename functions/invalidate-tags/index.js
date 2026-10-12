@@ -2,31 +2,42 @@ import { syncTagInvalidateEventHandler } from "@sanity/functions";
 
 export const handler = syncTagInvalidateEventHandler(
   async ({ event, done }) => {
-    const revalidateUrl = process.env.NEXTJS_REVALIDATE_URL;
+    const revalidateUrls = process.env.NEXTJS_REVALIDATE_URLS?.split(",")
+      .map((url) => url.trim())
+      .filter(Boolean);
+
     const secret = process.env.SANITY_REVALIDATE_TAGS_SECRET;
 
-    if (!revalidateUrl || !secret) {
+    if (!revalidateUrls?.length || !secret) {
       throw new Error("Missing revalidation environment variables");
     }
 
-    const revalidateResponse = await fetch(
-      `${revalidateUrl}?secret=${encodeURIComponent(secret)}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          tags: event.data.syncTags,
-        }),
-      },
-    );
+    await Promise.all(
+      revalidateUrls.map(async (revalidateUrl) => {
+        const response = await fetch(
+          `${revalidateUrl}?secret=${encodeURIComponent(secret)}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              tags: event.data.syncTags,
+            }),
+          },
+        );
 
-    if (!revalidateResponse.ok) {
-      throw new Error(
-        `Next.js revalidation failed with HTTP ${revalidateResponse.status}`,
-      );
-    }
+        if (!response.ok) {
+          throw new Error(
+            `Next.js revalidation failed for ${revalidateUrl} with HTTP ${response.status}`,
+          );
+        }
+
+        console.log(
+          `Next.js revalidation complete for ${revalidateUrl} with HTTP ${response.status}`,
+        );
+      }),
+    );
 
     try {
       const doneResponse = await done(event.data.syncTags);
