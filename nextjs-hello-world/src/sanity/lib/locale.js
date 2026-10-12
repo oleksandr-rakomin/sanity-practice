@@ -1,3 +1,5 @@
+export const BASE_LOCALE = "uk-UA";
+
 const supportedLocales = ["en-GB", "pl-PL", "uk-UA"];
 
 const locale = process.env.APP_LOCALE;

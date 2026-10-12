@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { sanityFetch } from "@/sanity/lib/live";
 import { POSTS_QUERY } from "@/sanity/lib/queries";
-import { APP_LOCALE } from "@/sanity/lib/locale";
+import { APP_LOCALE, BASE_LOCALE } from "@/sanity/lib/locale";
 
 export default async function Page() {
   const { data: posts } = await sanityFetch({
     query: POSTS_QUERY,
     params: {
       language: APP_LOCALE,
+      baseLanguage: BASE_LOCALE,
     },
   });
 
