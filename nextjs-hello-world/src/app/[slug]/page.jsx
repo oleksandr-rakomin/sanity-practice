@@ -21,7 +21,12 @@ export default async function PostPage({ params }) {
   });
 
   const postImageUrl = post.image
-    ? urlFor(post.image)?.width(550).height(310).url()
+    ? urlFor(post.image)
+        ?.width(550)
+        .height(310)
+        .auto("format")
+        .quality(80)
+        .url()
     : null;
 
   return (
